@@ -11,6 +11,32 @@ app.use(express.static("public"));
 app.get("/", function(req, res) {
   res.sendFile(__dirname + "/views/index.html");
 });
+app.get("/api/whoami", function(req, res, next) {
+  var ipaddress = req.ip;
+  var lang = req.acceptsLanguages();
+  var software = req.get("User-Agent");
+  // Or  var software = req.headers["user-agent"];
+  // software = "OS: " + req.useragent.os + "Browser: " + req.useragent.browser;
+
+  return res.json({
+    ipaddress: ipaddress,
+    language: lang,
+    software: software
+  });
+});
+
+//Inorder to test it:
+//Run this on browser or postman http://localhost:3000/api/whoami
+//You will get this:
+// {"ipaddress": "::1",
+// "language": [
+// "en-US",
+// "en",
+// "fa",
+// "pl"
+// ],
+// "software": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36"
+// }
 
 app.listen(3000, function() {
   console.log("Server is running on port 3000!");
