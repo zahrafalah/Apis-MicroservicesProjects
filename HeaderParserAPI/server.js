@@ -12,11 +12,11 @@ app.get("/", function(req, res) {
   res.sendFile(__dirname + "/views/index.html");
 });
 app.get("/api/whoami", function(req, res, next) {
+  console.log("I am here");
   var ipaddress = req.ip;
   var lang = req.acceptsLanguages();
   var software = req.get("User-Agent");
   // Or  var software = req.headers["user-agent"];
-  // software = "OS: " + req.useragent.os + "Browser: " + req.useragent.browser;
 
   return res.json({
     ipaddress: ipaddress,
