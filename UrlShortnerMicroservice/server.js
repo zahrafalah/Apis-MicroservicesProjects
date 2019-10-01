@@ -7,7 +7,9 @@ app.use(bodyParser.json());
 // http://expressjs.com/en/starter/static-files.html
 // app.use(express.static("public"));
 
-app.post("", function() {});
+app.post("/api/shorturl/new", function(req, res) {
+  console.log("I ammmm here!");
+});
 
 app.listen(3000, function() {
   console.log("Server is running on port 3000!");
