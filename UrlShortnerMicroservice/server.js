@@ -64,6 +64,11 @@ app.get("/:databaseId", (req, res, next) => {
   });
 });
 
+//For testing run both the project and mongo server then try this url:
+//localhost:3000/new/www.freecodecamp.com
+//localhost:3000/new/test99
+//localhost:3000/new/71477
+
 //process here means if it is on heroku
 app.listen(process.env.PORT || 3000, function() {
   console.log("Server is running on port 3000!");
