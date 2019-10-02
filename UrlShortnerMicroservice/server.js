@@ -26,12 +26,13 @@ app.get("/", function(req, res) {
 //Create the database entry
 app.get("/new/:urlToShorten", (req, res) => {
   var { urlToShorten } = req.params;
+  var short = Math.floor(Math.random() * 100000).toString();
   //test regular expressions
   var regex = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
   if (regex.test(urlToShorten)) {
     const data = new shortUrl({
       originalUrl: urlToShorten,
-      shorterUrl: shortUrl.id
+      shorterUrl: short
     });
 
     data.save(err => {
@@ -49,9 +50,18 @@ app.get("/new/:urlToShorten", (req, res) => {
 });
 
 //Query database and return the originalUrl
+app.get("/:databaseId", (req, res, next) => {
+  var shorterUrl = req.params.databaseId;
 
-app.post("/new", (req, res) => {
-  console.log("I ammmm here!");
+  shortUrl.findOne({ shorterUrl: shorterUrl }, (err, data) => {
+    if (err) return res.send("Error reading database");
+    var reg = new RegExp("^(http||https)://", "i");
+    if (reg.test(shortUrl)) {
+      res.redirect(301, data.originalUrl);
+    } else {
+      res.redirect(301, "http://" + data.originalUrl);
+    }
+  });
 });
 
 //process here means if it is on heroku
